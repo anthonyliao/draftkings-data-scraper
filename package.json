@@ -1,0 +1,15 @@
+{
+  "name": "draftkings-data-scraper",
+  "version": "1.0.0",
+  "dependencies": {
+    "jsdom": "^7.2.1",
+    "sqlite3": "^3.1.1",
+    "suspend": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "anthonyliao",
+  "license": "MIT"
+}
