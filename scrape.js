@@ -11,6 +11,10 @@ var db = new sqlite3.Database(file)
 
 var https = require('https')
 
+db.on('trace', function(sql) {
+    console.log('sql:' + sql)
+})
+
 var options = {
     host: 'www.draftkings.com',
     port: 443,
@@ -99,13 +103,16 @@ var req = https.request(options, function(res) {
                                 // var json = JSON.stringify(gameStat)
                                 // console.log('index:' + index + ', gameStat:' + json)
 
-                                db.get('SELECT 1 FROM GAME_STATS WHERE pid = ? AND date = ?', pid, gameStat.DATE, function(err, row) {
+                                var getStmt = db.prepare('SELECT 1 FROM GAME_STATS WHERE pid = ? AND date = ?')
+
+                                getStmt.get(gameStat.PID, gameStat.DATE, function(err, row) {
                                     if (row === undefined) {
                                         var stmt = db.prepare('INSERT INTO GAME_STATS VALUES (?, ?, ?, ?, ?, ?)')
                                         stmt.run(gameStat.PID, gameStat.DATE, gameStat.OPP, gameStat.MIN, gameStat.FPTS, gameStat.SALARY)
                                         stmt.finalize()
                                     }
                                 })
+                                
                                 
                             }, function() {
                             })
